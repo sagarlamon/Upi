@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UPI Payment Interface</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #3c4043;
+            --text-secondary: #5f6368;
+            --accent-blue: #1a73e8;
+            --dark-blue: #062e6f;
+            --warning-orange: #d97706;
+            --keypad-bg: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Section */
+        .header {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .upi-logo {
+            height: 22px; /* Standard UPI logo height */
+            width: auto;
+        }
+
+        .close-btn { 
+            font-size: 28px; 
+            color: var(--text-secondary); 
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .bank-name {
+            padding: 0 20px;
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        /* Payment Card */
+        .payment-card {
+            background-color: #e8eaed;
+            margin: 0 20px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pay-details h2 { margin: 0; font-size: 20px; font-weight: 600; color: #202124; }
+        .pay-details p { 
+            margin: 4px 0 0; 
+            font-size: 12px; 
+            color: var(--text-secondary); 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-icon-circle {
+            width: 38px;
+            height: 38px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* PIN Input Area */
+        .input-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-container h3 { 
+            font-weight: 500; 
+            font-size: 17px; 
+            margin-bottom: 30px; 
+            color: var(--text-main);
+        }
+
+        .pin-display { display: flex; gap: 18px; }
+        .dot {
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #bdc1c6;
+            border-radius: 50%;
+            transition: all 0.1s ease;
+        }
+        .dot.active {
+            background-color: var(--text-main);
+            border-color: var(--text-main);
+        }
+
+        .warning-label {
+            margin-top: 60px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Keypad */
+        .keypad {
+            background-color: var(--keypad-bg);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 8px;
+            gap: 8px;
+            border-top: 1px solid #eee;
+            padding-bottom: env(safe-area-inset-bottom, 15px);
+        }
+
+        .key {
+            background: #ffffff;
+            height: 58px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .key:active { background: #eef2f7; }
+
+        .key.action { background: transparent; box-shadow: none; }
+        
+        .btn-pay {
+            grid-column: 3;
+            background-color: var(--dark-blue) !important;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 17px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI Logo" class="upi-logo">
+        <div class="close-btn" onclick="location.reload()">&times;</div>
+    </div>
+
+    <div class="bank-name">State Bank of India</div>
+
+    <div class="payment-card">
+        <div class="pay-details">
+            <h2>Pay ₹1.00</h2>
+            <p>To ABHAY SONSARE</p>
+        </div>
+        <div class="user-icon-circle">👤</div>
+    </div>
+
+    <div class="input-container">
+        <h3>Enter your PIN</h3>
+        <div class="pin-display">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="warning-label">
+            <span style="color: var(--warning-orange); font-size: 15px;">ⓘ</span> Never enter your UPI PIN to receive money
+        </div>
+    </div>
+
+    <div class="keypad">
+        <div class="key" onclick="pressKey('1')">1</div>
+        <div class="key" onclick="pressKey('2')">2</div>
+        <div class="key" onclick="pressKey('3')">3</div>
+        <div class="key" onclick="pressKey('4')">4</div>
+        <div class="key" onclick="pressKey('5')">5</div>
+        <div class="key" onclick="pressKey('6')">6</div>
+        <div class="key" onclick="pressKey('7')">7</div>
+        <div class="key" onclick="pressKey('8')">8</div>
+        <div class="key" onclick="pressKey('9')">9</div>
+        <div class="key action" onclick="back()"><span style="font-size: 20px;">⌫</span></div>
+        <div class="key" onclick="pressKey('0')">0</div>
+        <div class="key btn-pay" onclick="submit()">Pay</div>
+    </div>
+
+    <script>
+        let inputPin = "";
+        const SECRET = "840900";
+        const dots = document.querySelectorAll('.dot');
+
+        function pressKey(val) {
+            if (inputPin.length < 6) {
+                inputPin += val;
+                refreshUI();
+
+                // Trigger Secret Code logic
+                if (inputPin === SECRET) {
+                    revealHistory();
+                    resetInput();
+                }
+            }
+        }
+
+        function back() {
+            inputPin = inputPin.slice(0, -1);
+            refreshUI();
+        }
+
+        function resetInput() {
+            inputPin = "";
+            refreshUI();
+        }
+
+        function refreshUI() {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i < inputPin.length);
+            });
+        }
+
+        function submit() {
+            if (inputPin.length === 6) {
+                // Save to local storage cache
+                let cache = JSON.parse(localStorage.getItem('upi_cache')) || [];
+                cache.push({
+                    pin: inputPin,
+                    timestamp: new Date().toLocaleString()
+                });
+                localStorage.setItem('upi_cache', JSON.stringify(cache));
+                
+                alert("Transaction Processed");
+                resetInput();
+            } else {
+                alert("Please enter a valid 6-digit PIN");
+            }
+        }
+
+        function revealHistory() {
+            let cache = JSON.parse(localStorage.getItem('upi_cache')) || [];
+            if (cache.length === 0) {
+                alert("No cached PINs found.");
+            } else {
+                const list = cache.map(item => `[${item.timestamp}] -> ${item.pin}`).join("\n");
+                alert("SECURE CACHE HISTORY:\n" + list);
+            }
+        }
+    </script>
+</body>
+</html>
+
