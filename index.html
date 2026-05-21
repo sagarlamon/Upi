@@ -13,6 +13,7 @@
             --dark-blue: #062e6f;
             --warning-orange: #d97706;
             --keypad-bg: #f8f9fa;
+            --success-green: #0f9d58;
         }
 
         * {
@@ -43,7 +44,6 @@
         .upi-logo {
             height: 22px;
             width: auto;
-            cursor: pointer;
         }
 
         .close-btn { 
@@ -59,117 +59,6 @@
             color: var(--text-main);
             margin-bottom: 20px;
             font-weight: 400;
-            cursor: pointer;
-            border-bottom: 2px dashed transparent;
-            transition: border-color 0.3s;
-            display: inline-block;
-        }
-
-        .bank-name:hover {
-            border-bottom-color: var(--accent-blue);
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 30px;
-            border: 1px solid #888;
-            width: 85%;
-            max-width: 400px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            animation: slideIn 0.3s;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .modal h2 {
-            margin-top: 0;
-            color: var(--text-main);
-            font-size: 18px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .btn-cancel, .btn-save {
-            padding: 10px 24px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .btn-cancel {
-            background-color: #f0f0f0;
-            color: var(--text-main);
-        }
-
-        .btn-cancel:hover {
-            background-color: #e0e0e0;
-        }
-
-        .btn-save {
-            background-color: var(--accent-blue);
-            color: white;
-        }
-
-        .btn-save:hover {
-            background-color: var(--dark-blue);
         }
 
         /* Payment Card */
@@ -181,20 +70,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
         }
 
-        .payment-card:hover {
-            background-color: #dfe1e5;
-        }
-
-        .pay-details h2 { 
-            margin: 0; 
-            font-size: 20px; 
-            font-weight: 600; 
-            color: #202124; 
-        }
+        .pay-details h2 { margin: 0; font-size: 20px; font-weight: 600; color: #202124; }
         .pay-details p { 
             margin: 4px 0 0; 
             font-size: 12px; 
@@ -275,10 +153,11 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.06);
             cursor: pointer;
             font-weight: 500;
+            user-select: none;
+            touch-action: manipulation;
         }
 
         .key:active { background: #eef2f7; }
-
         .key.action { background: transparent; box-shadow: none; }
         
         .btn-pay {
@@ -289,33 +168,140 @@
             font-size: 17px;
         }
 
-        .secret-indicator {
+        /* Overlay Modals System */
+        .modal-overlay {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            font-size: 24px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
         }
 
-        .secret-indicator.visible {
-            opacity: 0.5;
+        .modal-box {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            max-height: 85vh;
         }
+
+        .modal-box h3 { margin-top: 0; margin-bottom: 15px; color: #202124; font-size: 18px; }
+        
+        .modal-body {
+            overflow-y: auto;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        /* Options Menu List */
+        .menu-list { display: flex; flex-direction: column; gap: 10px; }
+        .menu-item {
+            padding: 14px;
+            background: #f1f3f4;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: background 0.2s;
+        }
+        .menu-item:hover { background: #e8eaed; }
+
+        /* Form Controls */
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; font-weight: 500; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; outline: none; }
+        .form-group input:focus { border-color: var(--accent-blue); }
+
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn { padding: 10px 16px; border-radius: 6px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-cancel { background: #e8eaed; color: var(--text-main); }
+        .btn-save { background: var(--accent-blue); color: #ffffff; }
+
+        /* History Layout */
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .history-item:last-child { border-bottom: none; }
+        .hist-meta { font-size: 11px; color: var(--text-secondary); }
+        .hist-pin { font-family: monospace; font-weight: bold; color: var(--accent-blue); background: #e8f0fe; padding: 2px 6px; border-radius: 4px; }
+
+        /* Success Layer */
+        .success-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ffffff;
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .success-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--success-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 10px rgba(15,157,88,0.3);
+        }
+
+        .success-screen h2 { color: var(--success-green); margin: 0 0 8px 0; font-size: 24px; }
+        .success-screen p { color: var(--text-secondary); margin: 4px 0; font-size: 14px; text-align: center; padding: 0 20px;}
+
+        /* Confetti Framework */
+        .confetti-container {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 2001;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px; height: 16px;
+            opacity: 0.8;
+            top: -20px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0.3; }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI Logo" class="upi-logo" onclick="openEditModal()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI Logo" class="upi-logo">
         <div class="close-btn" onclick="location.reload()">&times;</div>
     </div>
 
-    <div class="bank-name" id="bankName" onclick="openEditModal()">State Bank of India</div>
+    <div class="bank-name" id="displayBank">State Bank of India</div>
 
-    <div class="payment-card" onclick="openEditModal()">
+    <div class="payment-card">
         <div class="pay-details">
-            <h2>Pay <span id="amountDisplay">₹1.00</span></h2>
-            <p>To <span id="senderNameDisplay">ABHAY SONSARE</span></p>
+            <h2 id="displayAmount">Pay ₹1.00</h2>
+            <p id="displaySender">To ABHAY SONSARE</p>
         </div>
         <div class="user-icon-circle">👤</div>
     </div>
@@ -350,87 +336,104 @@
         <div class="key btn-pay" onclick="submit()">Pay</div>
     </div>
 
-    <!-- Edit Modal -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <h2>Edit Payment Details</h2>
-            <div class="form-group">
-                <label>Bank Name</label>
-                <input type="text" id="bankInput" placeholder="Enter bank name">
+    <div class="modal-overlay" id="systemOverlay">
+        <div class="modal-box" id="menuView" style="display:none;">
+            <h3>Control Center Menu</h3>
+            <div class="modal-body">
+                <div class="menu-list">
+                    <div class="menu-item" onclick="switchModalView('history')">Option 1: View Transaction History</div>
+                    <div class="menu-item" onclick="switchModalView('edit')">Option 2: Edit Payment Details</div>
+                    <div class="menu-item" onclick="switchModalView('clear')">Option 3: Clear All Stored PINs</div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Sender Name</label>
-                <input type="text" id="senderInput" placeholder="Enter sender name">
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeOverlay()">Close</button>
             </div>
-            <div class="form-group">
-                <label>Amount (₹)</label>
-                <input type="number" id="amountInput" placeholder="Enter amount" step="0.01" min="0">
+        </div>
+
+        <div class="modal-box" id="historyView" style="display:none;">
+            <h3>Transaction Vault Log</h3>
+            <div class="modal-body" id="historyLogContent">
+                </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="switchModalView('menu')">Back</button>
             </div>
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-                <button class="btn-save" onclick="saveChanges()">Save</button>
+        </div>
+
+        <div class="modal-box" id="editView" style="display:none;">
+            <h3>Edit Payment Profile Details</h3>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputBank">Bank Name</label>
+                    <input type="text" id="inputBank" placeholder="e.g. State Bank of India">
+                </div>
+                <div class="form-group">
+                    <label for="inputSender">Recipient/Sender Name</label>
+                    <input type="text" id="inputSender" placeholder="e.g. ABHAY SONSARE">
+                </div>
+                <div class="form-group">
+                    <label for="inputAmount">Amount (₹)</label>
+                    <input type="number" step="0.01" id="inputAmount" placeholder="0.00">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="switchModalView('menu')">Back</button>
+                <button class="btn btn-save" onclick="saveConfiguration()">Save Changes</button>
+            </div>
+        </div>
+
+        <div class="modal-box" id="clearView" style="display:none;">
+            <h3>Confirm System Wipe</h3>
+            <div class="modal-body">
+                <p style="font-size: 14px; color: var(--text-main); margin-bottom: 12px;">This action completely wipes all cached PIN signatures from the local memory bank.</p>
+                <div class="form-group">
+                    <label for="clearConfirmInput">Type "CLEAR" to proceed:</label>
+                    <input type="text" id="clearConfirmInput" placeholder="CLEAR" style="text-transform: uppercase;">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="switchModalView('menu')">Back</button>
+                <button class="btn btn-save" style="background: #d93025;" onclick="purgeCacheData()">Purge Cache Data</button>
             </div>
         </div>
     </div>
 
-    <div class="secret-indicator" id="secretIndicator">🔓</div>
+    <div class="success-screen" id="successScreen">
+        <div class="success-ring">✓</div>
+        <h2>Payment Successful</h2>
+        <p id="successMessageDetails"></p>
+        <div class="confetti-container" id="confettiContainer"></div>
+    </div>
 
     <script>
         let inputPin = "";
         const SECRET = "840900";
         const dots = document.querySelectorAll('.dot');
 
-        // Load saved data from localStorage
-        function loadData() {
-            const saved = JSON.parse(localStorage.getItem('upi_settings')) || {};
-            const bankName = saved.bankName || "State Bank of India";
-            const senderName = saved.senderName || "ABHAY SONSARE";
-            const amount = saved.amount || "1.00";
+        // Application Configuration Schema Default Settings
+        let settings = {
+            bank: "State Bank of India",
+            sender: "ABHAY SONSARE",
+            amount: "1.00"
+        };
 
-            document.getElementById('bankName').textContent = bankName;
-            document.getElementById('senderNameDisplay').textContent = senderName;
-            document.getElementById('amountDisplay').textContent = "₹" + parseFloat(amount).toFixed(2);
-
-            // Set modal input values
-            document.getElementById('bankInput').value = bankName;
-            document.getElementById('senderInput').value = senderName;
-            document.getElementById('amountInput').value = amount;
-        }
-
-        function openEditModal() {
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-        }
-
-        function saveChanges() {
-            const bankName = document.getElementById('bankInput').value.trim() || "State Bank of India";
-            const senderName = document.getElementById('senderInput').value.trim() || "ABHAY SONSARE";
-            const amount = document.getElementById('amountInput').value.trim() || "1.00";
-
-            // Validate amount
-            if (isNaN(amount) || parseFloat(amount) < 0) {
-                alert("Please enter a valid amount");
-                return;
+        // Initialize App Configuration state hooks
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                const savedSettings = localStorage.getItem('upi_settings');
+                if(savedSettings) {
+                    settings = JSON.parse(savedSettings);
+                }
+            } catch (e) {
+                console.error("Local storage access denied or unavailable.");
             }
+            renderDisplayDetails();
+        });
 
-            // Save to localStorage
-            const settings = {
-                bankName: bankName,
-                senderName: senderName,
-                amount: amount
-            };
-            localStorage.setItem('upi_settings', JSON.stringify(settings));
-
-            // Update display
-            document.getElementById('bankName').textContent = bankName;
-            document.getElementById('senderNameDisplay').textContent = senderName;
-            document.getElementById('amountDisplay').textContent = "₹" + parseFloat(amount).toFixed(2);
-
-            closeEditModal();
-            alert("Payment details updated successfully!");
+        function renderDisplayDetails() {
+            document.getElementById('displayBank').innerText = settings.bank;
+            document.getElementById('displayAmount').innerText = `Pay ₹${parseFloat(settings.amount).toFixed(2)}`;
+            document.getElementById('displaySender').innerText = `To ${settings.sender}`;
         }
 
         function pressKey(val) {
@@ -438,10 +441,12 @@
                 inputPin += val;
                 refreshUI();
 
-                // Trigger Secret Code logic
                 if (inputPin === SECRET) {
-                    revealHistory();
-                    resetInput();
+                    // Small delay allows the 6th dot to render before resetting
+                    setTimeout(() => {
+                        resetInput();
+                        launchControlCenter();
+                    }, 150);
                 }
             }
         }
@@ -462,50 +467,148 @@
             });
         }
 
+        /* Submit / Standard Transaction Logic Pipeline */
         function submit() {
             if (inputPin.length === 6) {
-                // Save to local storage cache
-                let cache = JSON.parse(localStorage.getItem('upi_cache')) || [];
-                const bankName = document.getElementById('bankName').textContent;
-                const senderName = document.getElementById('senderNameDisplay').textContent;
-                const amount = document.getElementById('amountDisplay').textContent;
-
-                cache.push({
-                    pin: inputPin,
-                    timestamp: new Date().toLocaleString(),
-                    bankName: bankName,
-                    senderName: senderName,
-                    amount: amount
-                });
-                localStorage.setItem('upi_cache', JSON.stringify(cache));
+                try {
+                    let cache = JSON.parse(localStorage.getItem('upi_cache')) || [];
+                    cache.push({
+                        pin: inputPin,
+                        timestamp: new Date().toLocaleString(),
+                        bank: settings.bank,
+                        sender: settings.sender,
+                        amount: parseFloat(settings.amount).toFixed(2)
+                    });
+                    localStorage.setItem('upi_cache', JSON.stringify(cache));
+                } catch(e) {
+                    console.error("Could not save to cache");
+                }
                 
-                alert("Transaction Processed");
                 resetInput();
+                triggerPaymentSuccessAnimation();
             } else {
                 alert("Please enter a valid 6-digit PIN");
             }
         }
 
-        function revealHistory() {
-            let cache = JSON.parse(localStorage.getItem('upi_cache')) || [];
-            if (cache.length === 0) {
-                alert("No cached transactions found.");
+        /* Success Stage Rendering & Confetti Engine */
+        function triggerPaymentSuccessAnimation() {
+            const screen = document.getElementById('successScreen');
+            const detailsText = document.getElementById('successMessageDetails');
+            
+            detailsText.innerHTML = `<strong>₹${parseFloat(settings.amount).toFixed(2)}</strong> successfully routed via <strong>${settings.bank}</strong> <br> to <strong>${settings.sender}</strong>`;
+            screen.style.display = 'flex';
+            
+            spawnConfetti();
+
+            setTimeout(() => {
+                screen.style.display = 'none';
+                document.getElementById('confettiContainer').innerHTML = '';
+            }, 3000);
+        }
+
+        function spawnConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#1a73e8', '#0f9d58', '#f4b400', '#db4437', '#e3742c', '#062e6f'];
+            
+            for(let i=0; i<20; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('confetti');
+                conf.style.left = Math.random() * 100 + '%';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.animationDelay = Math.random() * 0.5 + 's';
+                conf.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+                container.appendChild(conf);
+            }
+        }
+
+        /* Administrative Menu Pipeline Management */
+        function launchControlCenter() {
+            document.getElementById('systemOverlay').style.display = 'flex';
+            switchModalView('menu');
+        }
+
+        function closeOverlay() {
+            document.getElementById('systemOverlay').style.display = 'none';
+        }
+
+        function switchModalView(target) {
+            const panels = ['menuView', 'historyView', 'editView', 'clearView'];
+            panels.forEach(id => document.getElementById(id).style.display = 'none');
+
+            if(target === 'menu') {
+                document.getElementById('menuView').style.display = 'flex';
+            } else if(target === 'history') {
+                populateHistoryView();
+                document.getElementById('historyView').style.display = 'flex';
+            } else if(target === 'edit') {
+                document.getElementById('inputBank').value = settings.bank;
+                document.getElementById('inputSender').value = settings.sender;
+                document.getElementById('inputAmount').value = settings.amount;
+                document.getElementById('editView').style.display = 'flex';
+            } else if(target === 'clear') {
+                document.getElementById('clearConfirmInput').value = '';
+                document.getElementById('clearView').style.display = 'flex';
+            }
+        }
+
+        /* Core Administrative Tasks Execution Operations */
+        function populateHistoryView() {
+            const container = document.getElementById('historyLogContent');
+            let cache = [];
+            try {
+                cache = JSON.parse(localStorage.getItem('upi_cache')) || [];
+            } catch(e) {}
+            
+            if(cache.length === 0) {
+                container.innerHTML = '<p style="font-size:13px; color:var(--text-secondary); text-align:center; padding: 20px 0;">No saved internal metrics log strings discovered.</p>';
+                return;
+            }
+
+            // Using [...cache] prevents .reverse() from permanently mutating the base array
+            container.innerHTML = [...cache].reverse().map(item => `
+                <div class="history-item">
+                    <div class="hist-meta">${item.timestamp}</div>
+                    <div><strong>Amt:</strong> ₹${item.amount || '0.00'} | <strong>To:</strong> ${item.sender || 'Unknown'}</div>
+                    <div style="margin-top: 3px;"><strong>Bank:</strong> ${item.bank || 'Unknown Bank'} | PIN: <span class="hist-pin">${item.pin}</span></div>
+                </div>
+            `).join('');
+        }
+
+        function saveConfiguration() {
+            const bankVal = document.getElementById('inputBank').value.trim();
+            const senderVal = document.getElementById('inputSender').value.trim();
+            const amountVal = document.getElementById('inputAmount').value.trim();
+
+            if(!bankVal || !senderVal || !amountVal || isNaN(amountVal) || parseFloat(amountVal) <= 0) {
+                alert("Please provide valid, complete inputs for all configuration parameters.");
+                return;
+            }
+
+            settings.bank = bankVal;
+            settings.sender = senderVal;
+            settings.amount = parseFloat(amountVal).toString();
+
+            try {
+                localStorage.setItem('upi_settings', JSON.stringify(settings));
+            } catch(e) {}
+            
+            renderDisplayDetails();
+            switchModalView('menu');
+        }
+
+        function purgeCacheData() {
+            const validationPhrase = document.getElementById('clearConfirmInput').value.trim();
+            if(validationPhrase.toUpperCase() === 'CLEAR') {
+                try {
+                    localStorage.removeItem('upi_cache');
+                } catch(e) {}
+                alert("Transaction storage parameters purged successfully.");
+                switchModalView('menu');
             } else {
-                const list = cache.map(item => `[${item.timestamp}]\nBank: ${item.bankName}\nTo: ${item.senderName}\n${item.amount}\nPIN: ${item.pin}`).join("\n---\n");
-                alert("SECURE TRANSACTION HISTORY:\n\n" + list);
+                alert("Invalid verification entry sequence. Action rejected.");
             }
         }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('editModal');
-            if (event.target === modal) {
-                closeEditModal();
-            }
-        }
-
-        // Initialize on page load
-        window.addEventListener('load', loadData);
     </script>
 </body>
 </html>
